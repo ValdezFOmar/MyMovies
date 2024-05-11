@@ -1,3 +1,6 @@
+# tailwindcss, static content
+output.css
+
 # Byte-compiled / optimized / DLL files
 __pycache__/
 *.py[cod]
@@ -120,6 +123,7 @@ celerybeat.pid
 *.sage.py
 
 # Environments
+node_modules/
 .env
 .venv
 env/
