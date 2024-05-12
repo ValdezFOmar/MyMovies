@@ -34,7 +34,7 @@ class Movie(models.Model):
     revenue = models.IntegerField(blank=True)
     poster_path = models.URLField(blank=True)
     genres = models.ManyToManyField(Genre)
-    credits = models.ManyToManyField(Person, through="MovieCredit")
+    credits = models.ManyToManyField(Person, through='MovieCredit')
 
     def __str__(self):
         return self.title

@@ -1,29 +1,27 @@
-{% extends "movies/base.html" %}
-
-{% block article %}
-
+{% extends "movies/base.html" %} {% block article %}
 <main>
   <p class="mb-2">
     <a href="{% url 'get-name' %}">Pon tu nombre</a>
   </p>
+
   <section class="my-4">
     <h2 class="text-xl font-semibold mb-2">Movie Catalogue</h2>
 
     {% if movie_list %}
-      <ul class="grid grid-cols-3 gap-1.5">
-        {% for movie in movie_list %}
-        <li>
-          <article>
-            <a class="hover:underline" href="{% url 'movie-detail' movie.id %}">{{ movie.title }} &lpar;{{ movie.release_date.year }}&rpar;</a>
-          </article>
-        </li>
-        {% endfor %}
-      </ul>
+    <ul class="grid grid-cols-3 gap-1.5">
+      {% for movie in movie_list %}
+      <li>
+        <article>
+          <a class="hover:underline" href="{% url 'movie-detail' movie.id %}">
+            {{ movie.title }} &lpar;{{ movie.release_date.year }}&rpar;
+          </a>
+        </article>
+      </li>
+      {% endfor %}
+    </ul>
     {% else %}
-      <p class="text-lg">No movies are available</p>
+    <p class="text-lg">No movies are available</p>
     {% endif %}
-
   </section>
 </main>
-
 {% endblock article %}

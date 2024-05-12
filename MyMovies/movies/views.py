@@ -1,6 +1,7 @@
 from django.http import HttpRequest
 from django.shortcuts import render
 from movies.models import Movie
+
 from .forms import NameForm
 
 
