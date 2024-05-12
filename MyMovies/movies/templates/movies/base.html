@@ -1,0 +1,36 @@
+{% load static %}
+
+<!DOCTYPE html>
+<html lang="en" class="h-screen">
+
+<head>
+  <title>My Movies</title>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <link rel="stylesheet" href="{% static 'movies/css/output.css' %}">
+  <script src="https://unpkg.com/htmx.org@1.9.12"></script>
+  <script src="https://unpkg.com/hyperscript.org@0.9.12"></script>
+</head>
+
+<body class="h-full max-w-4xl mx-auto" hx-headers='{"X-CSRFToken": "{{ csrf_token }}"}'>
+  <div class="flex flex-col h-full">
+    <div class="px-6 py-4">
+      <header>
+        <h1 class="text-4xl font-bold text-center"><a href="{% url 'index' %}">My Movies</a></h1>
+      </header>
+    </div>
+    <div class="px-6 py-4 flex-1">
+      {% block article %}
+      {% endblock article %}
+    </div>
+    <div class="px-6 py-4">
+      <footer>
+        <p class="text-sm text-slate-700">Proyecto de ejemplo de la materia Programación Web.
+          <a class="italic text-sky-600 underline font-semibold" href="https://github.com/ValdezFOmar/MyMovies">GitHub Repository</a>
+        </p>
+      </footer>
+    </div>
+  </div>
+</body>
+
+</html>

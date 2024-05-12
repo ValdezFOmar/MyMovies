@@ -25,7 +25,7 @@ SECRET_KEY = "django-insecure-whi*6yc^@7m^2g^s+3jbv8#+!k-09_fg&&o_8)ayrqva%gr34n
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
-ALLOWED_HOSTS = ["54.145.145.76:8000"]
+ALLOWED_HOSTS = ["54.145.145.76", "127.0.0.1"]
 
 
 # Application definition
@@ -37,6 +37,7 @@ INSTALLED_APPS = [
     "django.contrib.sessions",
     "django.contrib.messages",
     "django.contrib.staticfiles",
+    "django.contrib.humanize",
     "movies.apps.MoviesConfig",
 ]
 
