@@ -1,6 +1,13 @@
-from django.contrib.auth.models import User
+from django.contrib.auth.models import AbstractUser
 from django.core.validators import MaxValueValidator, MinValueValidator
 from django.db import models
+
+
+class User(AbstractUser):
+    id: int
+
+    def __str__(self) -> str:
+        return f'ID<{self.id}> {self.username}'
 
 
 class Genre(models.Model):
@@ -13,14 +20,14 @@ class Genre(models.Model):
 class Job(models.Model):
     name = models.CharField(max_length=200)
 
-    def __str__(self):
+    def __str__(self) -> str:
         return self.name
 
 
 class Person(models.Model):
     name = models.CharField(max_length=128)
 
-    def __str__(self):
+    def __str__(self) -> str:
         return self.name
 
 
@@ -36,7 +43,7 @@ class Movie(models.Model):
     genres = models.ManyToManyField(Genre)
     credits = models.ManyToManyField(Person, through='MovieCredit')
 
-    def __str__(self):
+    def __str__(self) -> str:
         return self.title
 
 

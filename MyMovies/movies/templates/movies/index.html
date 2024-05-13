@@ -1,4 +1,6 @@
-{% extends "movies/base.html" %} {% block article %}
+{% extends "movies/base.html" %}
+
+{% block content %}
 <main>
   <p class="mb-2">
     <a href="{% url 'get-name' %}">Pon tu nombre</a>
@@ -24,4 +26,4 @@
     {% endif %}
   </section>
 </main>
-{% endblock article %}
+{% endblock content %}

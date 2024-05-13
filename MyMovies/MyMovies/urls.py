@@ -17,10 +17,8 @@ Including another URLconf
 
 from django.contrib import admin
 from django.urls import include, path
-from movies.views import index
 
 urlpatterns = [
-    path('', index),
-    path('movies/', include('movies.urls')),
+    path('', include('movies.urls')),
     path('admin/', admin.site.urls),
 ]

@@ -21,10 +21,22 @@
           <h1 class="text-4xl font-bold text-center">
             <a href="{% url 'index' %}">My Movies</a>
           </h1>
+          <nav>
+            {% if user.is_authenticated %}
+              <a href="{% url 'logout-user' %}">Logout</a>
+            {% else %}
+              <a href="{% url 'login-user' %}">Login</a>
+            {% endif %}
+          </nav>
         </header>
       </div>
+      {% if messages %}
+        <div class="px-6 py-4">
+          {% include "movies/alerts.html" %}
+        </div>
+      {% endif %}
       <div class="px-6 py-4 flex-1">
-        {% block article %} {% endblock article %}
+        {% block content %} {% endblock content %}
       </div>
       <div class="px-6 py-4">
         <footer>

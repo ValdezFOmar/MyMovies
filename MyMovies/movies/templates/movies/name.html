@@ -1,5 +1,6 @@
-{% extends 'movies/base.html' %} {% block article %}
+{% extends 'movies/base.html' %}
 
+{% block content %}
 <div class="">
   <form>
     {% csrf_token %} {{ form }}
@@ -17,5 +18,4 @@
     </div>
   </form>
 </div>
-
-{% endblock %}
+{% endblock content %}
