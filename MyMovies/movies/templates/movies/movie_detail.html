@@ -10,11 +10,11 @@
       </h2>
     </header>
 
-    <section>
+    <section class="flow-root">
       <img
         class="max-h-72 float-left"
         src="https://image.tmdb.org/t/p/w600_and_h900_bestv2{{ movie.poster_path }}"
-        alt="Poster for {{ movie.title }}"
+        alt="Poster for {{ movie.title|title }}"
       />
       <h3 class="text-2xl">Overview</h3>
       <p class="mb-2 text-justify">{{ movie.overview }}</p>
@@ -26,6 +26,43 @@
           <p>Revenue: ${{ movie.revenue|intword }}</p>
         </details>
       </div>
+    </section>
+
+    <section>
+      <h3>Reviews</h3>
+
+      {% if user.is_authenticated %}
+      <div>
+        {% comment %} TODO: Insert the HTML returned by the view {% endcomment %}
+        <form method="post" action="{% url 'movie-review' movie.id %}">
+          {% csrf_token %}
+          <fieldset>
+            <legend>Leave a review for &quot;{{ movie.title|title }}&quot;</legend>
+            {{ review_form }}
+          </fieldset>
+          {% comment %} Maybe a cancel button? {% endcomment %}
+          <button type="submit">Save</button>
+        </form>
+      </div>
+      {% endif %}
+
+      {% if reviews %}
+      <ol>
+        {% for review in reviews %}
+        <li>
+          <span>User: {{ review.user.username }}</span><br>
+          <span>Rating: {{ review.rating }}/100</span><br>
+          <span>Date: {{ review.date_time }}</span><br>
+          {% comment %} The review migth be empty {% endcomment %}
+          {% if review.review %}<p>{{ review.review }}</p>{% endif %}
+          <hr>
+        </li>
+        {% endfor %}
+      </ol>
+      {% else %}
+      <p>No reviews for &quot;{{ movie.title|title }}&quot; as of now...</p>
+      {% endif %}
+
     </section>
   </article>
 </main>

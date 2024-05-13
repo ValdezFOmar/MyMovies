@@ -2,11 +2,12 @@ from django.contrib import messages
 from django.contrib.auth import authenticate, login, logout
 from django.contrib.auth.decorators import login_required
 from django.core.exceptions import ObjectDoesNotExist
-from django.http import Http404, HttpRequest
+from django.http import Http404, HttpRequest, HttpResponseNotAllowed
 from django.shortcuts import redirect, render
+from django.utils import timezone
 from movies.models import Movie
 
-from .forms import NameForm
+from .forms import MovieReviewForm, NameForm
 
 
 def index(request: HttpRequest):
@@ -43,8 +44,38 @@ def movie_detail(request: HttpRequest, movie_id: int):
         movie = Movie.objects.get(pk=movie_id)
     except ObjectDoesNotExist:
         raise Http404(f'Movie with id {movie_id} does not exists')
-    context = {'movie': movie}
+    form = MovieReviewForm()
+    reviews = movie.moviereview_set.order_by('-date_time')
+    context = {'movie': movie, 'review_form': form, 'reviews': reviews}
     return render(request, 'movies/movie_detail.html', context)
+
+
+@login_required(login_url='user-login')
+def submit_movie_review(request: HttpRequest, movie_id: int):
+    if request.method != 'POST':
+        return HttpResponseNotAllowed('GET')
+
+    form = MovieReviewForm(request.POST)
+
+    if not form.is_valid():
+        messages.error(request, 'Invalid/missing form values')
+        return redirect('movie-detail', movie_id)
+
+    try:
+        movie = Movie.objects.get(pk=movie_id)
+    except ObjectDoesNotExist:
+        messages.error(request, f'Movie with id {movie_id} does not exists')
+        return redirect('movie-detail', movie_id)
+
+    review = form.save(commit=False)
+    review.date_time = timezone.now()
+    review.user = request.user
+    review.movie = movie
+    review.save()
+    # TODO: Don't redirect, return HTML instead to be used with HTMX
+    # This message (and the others) will need to be deleted then
+    messages.success(request, f'Review for "{movie.title}" registered')
+    return redirect('movie-detail', movie_id)
 
 
 def get_name(request: HttpRequest):

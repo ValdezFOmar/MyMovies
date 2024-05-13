@@ -32,6 +32,8 @@ class Person(models.Model):
 
 
 class Movie(models.Model):
+    moviereview_set: models.Manager  # Only for type hinting
+
     title = models.CharField(max_length=200)
     overview = models.TextField()
     release_date = models.DateTimeField()
@@ -60,3 +62,4 @@ class MovieReview(models.Model):
         validators=[MinValueValidator(1), MaxValueValidator(100)]
     )
     review = models.TextField(blank=True)
+    date_time = models.DateTimeField(blank=True)  # Auto generated
