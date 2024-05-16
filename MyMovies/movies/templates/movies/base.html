@@ -32,21 +32,20 @@
       </div>
       {% if messages %}
         <div class="px-6 py-4">
-          {% include "movies/alerts.html" %}
+          {% include 'movies/alerts.html' %}
         </div>
       {% endif %}
       <div class="px-6 py-4 flex-1">
-        {% block content %} {% endblock content %}
+        {% block content %}
+        {% endblock content %}
       </div>
       <div class="px-6 py-4">
         <footer>
           <p class="text-sm text-slate-700">
             Proyecto de ejemplo de la materia Programación Web.
-            <a
-              class="italic text-sky-600 underline font-semibold"
-              href="https://github.com/ValdezFOmar/MyMovies"
-              >GitHub Repository</a
-            >
+            <a class="italic text-sky-600 underline font-semibold"
+               href="https://github.com/ValdezFOmar/MyMovies">GitHub Repository
+            </a>
           </p>
         </footer>
       </div>

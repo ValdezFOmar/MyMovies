@@ -7,7 +7,7 @@ from django.shortcuts import redirect, render
 from django.utils import timezone
 from movies.models import Movie
 
-from .forms import MovieReviewForm, NameForm
+from .forms import MovieReviewForm
 
 
 def index(request: HttpRequest):
@@ -76,14 +76,3 @@ def submit_movie_review(request: HttpRequest, movie_id: int):
     # This message (and the others) will need to be deleted then
     messages.success(request, f'Review for "{movie.title}" registered')
     return redirect('movie-detail', movie_id)
-
-
-def get_name(request: HttpRequest):
-    if request.method == 'POST':
-        form = NameForm(request.POST)
-        if form.is_valid():
-            print(form.cleaned_data)
-        return render(request, 'movies/name-ok.html', {'form': form})
-    else:
-        form = NameForm()
-    return render(request, 'movies/name.html', {'form': form})
