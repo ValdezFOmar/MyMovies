@@ -1,25 +1,37 @@
 {% extends "movies/base.html" %}
 
 {% block content %}
-<main>
-  <section class="my-4">
-    <h2 class="text-xl font-semibold mb-2">Movie Catalogue</h2>
+<main class="page-body-section">
+  <section>
+
+    <h2 class="text-3xl text-center font-semibold mb-6">Movie Catalogue</h2>
 
     {% if movie_list %}
-    <ul class="grid grid-cols-3 gap-1.5">
+    <div class="grid grid-cols-2 md:grid-cols-4 gap-x-6 gap-y-4">
       {% for movie in movie_list %}
-      <li>
-        <article>
-          <a class="hover:underline" href="{% url 'movie-detail' movie.id %}">
-            {{ movie.title }} &lpar;{{ movie.release_date.year }}&rpar;
+
+      <div>
+        <article class="group drop-shadow-md shadow-gray-300 bg-zinc-50 rounded-md">
+          <a href="{% url 'movie-detail' movie.id %}">
+            <div class="overflow-hidden">
+              <img src="https://image.tmdb.org/t/p/w600_and_h900_bestv2{{ movie.poster_path }}"
+                alt="Poster for {{ movie.title|title }}" class="rounded-t-md object-cover ease-out duration-200
+                group-hover:transition-transform group-hover:scale-110">
+            </div>
+            <h3 class="p-2 text-center text-base text-gray-600 font-bold ease-out duration-200
+              group-hover:text-gray-950 group-hover:transition-colors">
+              {{ movie.title }}
+            </h3>
           </a>
         </article>
-      </li>
+      </div>
+
       {% endfor %}
-    </ul>
+    </div>
     {% else %}
-    <p class="text-lg">No movies are available</p>
+    <p class="text-lg">No movies are available...</p>
     {% endif %}
+
   </section>
 </main>
 {% endblock content %}

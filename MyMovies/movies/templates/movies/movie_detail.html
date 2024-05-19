@@ -4,66 +4,74 @@
 {% block content %}
 <main>
   <article>
-    <header>
-      <h2 class="text-3xl font-semibold">
-        {{ movie.title }} &lpar;{{ movie.release_date|date:"Y" }}&rpar;
-      </h2>
-    </header>
+    <div class="page-body-section mb-4">
+      <header class="mb-6">
+        <h2 class="text-2xl md:text-3xl font-semibold">
+          {{ movie.title }} &lpar;{{ movie.release_date|date:"Y" }}&rpar;
+        </h2>
+      </header>
 
-    <section class="flow-root">
-      <img
-        class="max-h-72 float-left"
-        src="https://image.tmdb.org/t/p/w600_and_h900_bestv2{{ movie.poster_path }}"
-        alt="Poster for {{ movie.title|title }}"
-      />
-      <h3 class="text-2xl">Overview</h3>
-      <p class="mb-2 text-justify">{{ movie.overview }}</p>
+      <section class="flex flex-col sm:flex-row gap-4">
+        <div>
+          <img class="min-h-full rounded-sm object-cover shadow shadow-gray-400"
+            src="https://image.tmdb.org/t/p/w600_and_h900_bestv2{{ movie.poster_path }}"
+            alt="Poster for {{ movie.title|title }}" />
+        </div>
+        <div>
+          <h3 class="text-2xl mb-4">Overview</h3>
+          <p class="mb-2 text-justify">{{ movie.overview }}</p>
 
-      <div>
-        <details>
-          <summary>Production Details</summary>
-          <p>Budget: ${{ movie.budget|intword }}</p>
-          <p>Revenue: ${{ movie.revenue|intword }}</p>
-        </details>
-      </div>
-    </section>
+          <div>
+            <details open class="my-4">
+              <summary class="text-xl mb-2">Production Details</summary>
+              <ul class="list-outside pl-8">
+                <li class="list-item list-disc">Budget: ${{ movie.budget|intword }}</li>
+                <li class="list-item list-disc">Revenue: ${{ movie.revenue|intword }}</li>
+              </ul>
+            </details>
+          </div>
+        </div>
+      </section>
+    </div>
 
-    <section>
-      <h3>Reviews</h3>
+    <div class="page-body-section">
+      <section>
+        <h3 class="text-2xl mb-4">Reviews</h3>
 
-      {% if user.is_authenticated %}
-      <div>
-        {% comment %} TODO: Insert the HTML returned by the view {% endcomment %}
-        <form method="post" action="{% url 'movie-review' movie.id %}">
-          {% csrf_token %}
-          <fieldset>
-            <legend>Leave a review for &quot;{{ movie.title|title }}&quot;</legend>
-            {{ review_form }}
-          </fieldset>
-          {% comment %} Maybe a cancel button? {% endcomment %}
-          <button type="submit">Save</button>
-        </form>
-      </div>
-      {% endif %}
+        {% if user.is_authenticated %}
+        <div>
+          {% comment %} TODO: Insert the HTML returned by the view {% endcomment %}
+          <form method="post" action="{% url 'movie-review' movie.id %}">
+            {% csrf_token %}
+            <fieldset>
+              <legend>Leave a review for &quot;{{ movie.title|title }}&quot;</legend>
+              {{ review_form }}
+            </fieldset>
+            {% comment %} Maybe a cancel button? {% endcomment %}
+            <button type="submit">Save</button>
+          </form>
+        </div>
+        {% endif %}
 
-      {% if reviews %}
-      <ol>
-        {% for review in reviews %}
-        <li>
-          <span>User: {{ review.user.username }}</span><br>
-          <span>Rating: {{ review.rating }}/100</span><br>
-          <span>Date: {{ review.date_time }}</span><br>
-          {% comment %} The review migth be empty {% endcomment %}
-          {% if review.review %}<p>{{ review.review }}</p>{% endif %}
-          <hr>
-        </li>
-        {% endfor %}
-      </ol>
-      {% else %}
-      <p>No reviews for &quot;{{ movie.title|title }}&quot; as of now...</p>
-      {% endif %}
+        {% if reviews %}
+        <ol>
+          {% for review in reviews %}
+          <li>
+            <span>User: {{ review.user.username }}</span><br>
+            <span>Rating: {{ review.rating }}/100</span><br>
+            <span>Date: {{ review.date_time }}</span><br>
+            {% comment %} The review migth be empty {% endcomment %}
+            {% if review.review %}<p>{{ review.review }}</p>{% endif %}
+            <hr>
+          </li>
+          {% endfor %}
+        </ol>
+        {% else %}
+        <p>No reviews for &quot;{{ movie.title|title }}&quot; as of now...</p>
+        {% endif %}
 
-    </section>
+      </section>
+    </div>
   </article>
 </main>
 {% endblock content %}
