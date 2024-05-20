@@ -1,11 +1,15 @@
 <ul class="">
   {% for message in messages %}
+  <li class="p-2 rounded-lg border-2 drop-shadow-lg shadow-gray-400
     {% if message.level == DEFAULT_MESSAGE_LEVELS.ERROR %}
-      <li class="" role="alert">{{ message }}</li>
+      bg-red-300 text-red-900 border-red-600
     {% elif message.level == DEFAULT_MESSAGE_LEVELS.SUCCESS %}
-      <li class="" role="alert">{{ message }}</li>
+      bg-green-300 text-green-900 border-green-600
     {% else %}
-      <li class="" role="alert">{{ message }}</li>
+      bg-indigo-300 text-indigo-900 border-indigo-600
     {% endif %}
+    " role="alert">
+    {{ message }}
+  </li>
   {% endfor %}
 </ul>

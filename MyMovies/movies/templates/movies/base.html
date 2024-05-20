@@ -20,9 +20,7 @@
         {% include "movies/header.html" %}
       </div>
       {% if messages %}
-        <div class="bg-zinc-50 rounded-lg drop-shadow-lg shadow-gray-400">
-          {% include "movies/alerts.html" %}
-        </div>
+        {% include "movies/alerts.html" %}
       {% endif %}
       <div class="flex-1">
         {% block content %}
