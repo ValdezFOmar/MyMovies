@@ -1,0 +1,35 @@
+{% if user.is_authenticated %}
+
+<div class="mb-8 py-3 px-4 mx-auto rounded-md border bg-gray-100 border-gray-400">
+  <form hx-post="{% url 'movie-review' movie.id %}" hx-target="#review-list" hx-swap="innerHTML"
+    hx-on::after-request="if (event.detail.successful) this.reset()">
+    {% csrf_token %}
+    <fieldset>
+      <legend class="text-lg mb-3 text-balance">Leave a review for &quot;{{ movie.title|title }}&quot;</legend>
+      <div class="mb-2">
+        <label for="rating" class="pr-2">Rating:</label>
+        <input type="number" id="rating" name="rating" required min="0" max="100"
+          class="py-1 px-2 rounded-md border-gray-400 focus:border-indigo-500">
+      </div>
+      <div class="mb-2">
+        <label for="review">What do you think about this movie?</label>
+        <textarea id="review" name="review" rows="3" placeholder="I liked the movie because..."
+          class="py-1 px-2 block mt-1 min-h-8 w-full placeholder-gray-400 rounded-md border-gray-400 focus:border-indigo-500"></textarea>
+      </div>
+    </fieldset>
+    {% comment %} Maybe a cancel button? {% endcomment %}
+    <div class="mt-2">
+      <button
+        class="inline-block mx-auto py-1 px-3 text-zinc-50 bg-indigo-500 ease-out duration-200 hover:bg-indigo-700 rounded-md"
+        type="submit">Save</button>
+    </div>
+  </form>
+</div>
+
+{% else %}
+
+<p class="my-4">
+  You need to be <a href="{% url 'login-user' %}" class="text-link">loged in</a> to leave a review.
+</p>
+
+{% endif %}

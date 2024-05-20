@@ -1,0 +1,15 @@
+{% if reviews %}
+
+<ol>
+  {% for review in reviews %}
+  <li class="py-2 border-t border-t-gray-200">
+    {% include 'movies/review.html' with review=review show_movie_title=False %}
+  </li>
+  {% endfor %}
+</ol>
+
+{% else %}
+
+<p>No reviews for &quot;{{ movie.title|title }}&quot; as of now...</p>
+
+{% endif %}

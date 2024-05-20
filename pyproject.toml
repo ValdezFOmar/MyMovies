@@ -17,3 +17,4 @@ include = '''
 typeCheckingMode = 'standard'
 pythonVersion = '3.10'
 reportIncompatibleVariableOverride = false
+reportIncompatibleMethodOverride = false

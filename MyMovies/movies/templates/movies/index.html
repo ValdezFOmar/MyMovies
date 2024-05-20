@@ -13,12 +13,12 @@
       <div>
         <article class="group drop-shadow-md shadow-gray-300 bg-zinc-50 rounded-md">
           <a href="{% url 'movie-detail' movie.id %}">
-            <div class="overflow-hidden">
+            <div class="overflow-hidden rounded-t-md">
               <img src="https://image.tmdb.org/t/p/w600_and_h900_bestv2{{ movie.poster_path }}"
-                alt="Poster for {{ movie.title|title }}" class="rounded-t-md object-cover ease-out duration-200
+                alt="Poster for {{ movie.title|title }}" class="rounded-t-md object-cover ease-out duration-300
                 group-hover:transition-transform group-hover:scale-110">
             </div>
-            <h3 class="p-2 text-center text-base text-gray-600 font-bold ease-out duration-200
+            <h3 class="p-2 text-center text-base text-gray-600 font-bold ease-out duration-300
               group-hover:text-gray-950 group-hover:transition-colors">
               {{ movie.title }}
             </h3>

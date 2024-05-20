@@ -2,24 +2,24 @@
 
 {% block content %}
 <main class="page-body-section">
-  <section class="p-4 mx-auto w-fit rounded-md border border-gray-400">
+  <section class="p-4 mx-auto w-fit rounded-md border bg-gray-100 border-gray-400">
     <h1 class="text-2xl md:text-3xl text-center mb-4">Login</h1>
 
     <form method="post">
       {% csrf_token %}
-      <div class="mb-2">
+      <div class="mb-2 flex flex-col sm:flex-row sm:items-center">
         <label for="username" class="w-20 inline-block">Username</label>
-        <input type="text" class="py-1 px-2 rounded-sm border-gray-400 focus:border-indigo-500" id="username"
+        <input type="text" class="py-1 px-2 flex-1 rounded-sm border-gray-400 focus:border-indigo-500" id="username"
           name="username" />
       </div>
-      <div class="mb-2">
+      <div class="mb-2 flex flex-col sm:flex-row sm:items-center">
         <label for="password" class="w-20 inline-block">Password</label>
-        <input type="password" class="py-1 px-2 rounded-sm border-gray-400 focus:border-indigo-500" id="password"
+        <input type="password" class="py-1 px-2 flex-1 rounded-sm border-gray-400 focus:border-indigo-500" id="password"
           name="password" />
       </div>
       <div class="mt-4 flex justify-center">
         <button
-          class="inline-block mx-auto py-2 px-4 text-zinc-50 bg-indigo-500 ease-out duration-200 hover:bg-indigo-700 rounded-md"
+          class="mx-auto py-2 px-4 text-zinc-50 bg-indigo-500 ease-out duration-200 hover:bg-indigo-700 rounded-md"
           type="submit">Log in</button>
       </div>
     </form>

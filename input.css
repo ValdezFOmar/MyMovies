@@ -10,4 +10,8 @@
     .nav-link {
         @apply p-2 inline-block text-lg text-indigo-600 ease-out duration-200 hover:text-black hover:transition-colors;
     }
+
+    .text-link {
+        @apply text-sky-700 hover:underline;
+    }
 }

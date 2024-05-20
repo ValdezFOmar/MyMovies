@@ -1,0 +1,20 @@
+<article id="review-{{ review.id }}">
+  {% if show_movie_title %}
+  <h4 class="mb-3 text-2xl font-bold">
+    <a href="{% url 'movie-detail' review.movie.id %}#review-{{ review.id }}" class="hover:underline">
+      {{ review.movie.title|title }}
+    </a>
+  </h4>
+  {% endif %}
+  <h5 class="mb-1">
+    <span class="text-xl">{{ review.rating }}</span><span class="text-base">/100</span>
+    <span class="text-sm text-gray-600">by <a href="" class="text-link">{{ review.user.username }}</a></span>
+    <span class="text-sm text-gray-600">
+      on <time datetime="{{ review.date_time|date:'Y-m-d' }}">{{ review.date_time }}</time>
+    </span>
+  </h5>
+  {% if review.review %}
+  {% comment %} The review migth be empty {% endcomment %}
+  <p>{{ review.review }}</p>
+  {% endif %}
+</article>

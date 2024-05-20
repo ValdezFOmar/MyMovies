@@ -7,13 +7,14 @@
     <div class="page-body-section mb-4">
       <header class="mb-6">
         <h2 class="text-2xl md:text-3xl font-semibold">
-          {{ movie.title }} &lpar;{{ movie.release_date|date:"Y" }}&rpar;
+          {{ movie.title }}
+          &lpar;<time datetime="{{ movie.release_date|date:'Y-m-d' }}">{{ movie.release_date|date:"Y" }}</time>&rpar;
         </h2>
       </header>
 
       <section class="flex flex-col sm:flex-row gap-4">
         <div>
-          <img class="min-h-full rounded-sm object-cover shadow shadow-gray-400"
+          <img class="min-h-full max-w-52 mx-auto sm:mx-0 rounded-sm object-cover shadow shadow-gray-400"
             src="https://image.tmdb.org/t/p/w600_and_h900_bestv2{{ movie.poster_path }}"
             alt="Poster for {{ movie.title|title }}" />
         </div>
@@ -38,38 +39,15 @@
       <section>
         <h3 class="text-2xl mb-4">Reviews</h3>
 
-        {% if user.is_authenticated %}
-        <div>
-          {% comment %} TODO: Insert the HTML returned by the view {% endcomment %}
-          <form method="post" action="{% url 'movie-review' movie.id %}">
-            {% csrf_token %}
-            <fieldset>
-              <legend>Leave a review for &quot;{{ movie.title|title }}&quot;</legend>
-              {{ review_form }}
-            </fieldset>
-            {% comment %} Maybe a cancel button? {% endcomment %}
-            <button type="submit">Save</button>
-          </form>
+        <button hx-get="{% url 'movie-review-form' movie.id %}" hx-trigger="click" hx-target="this" hx-swap="outerHTML"
+          type="button" class="text-md font-semibold mx-auto py-2 px-4 text-zinc-50
+          bg-indigo-500 ease-out duration-200 hover:bg-indigo-700 rounded-md">
+          Leave a review
+        </button>
+
+        <div id="review-list" class="mt-4">
+          {% include "movies/movie_reviews.html" with reviews=reviews %}
         </div>
-        {% endif %}
-
-        {% if reviews %}
-        <ol>
-          {% for review in reviews %}
-          <li>
-            <span>User: {{ review.user.username }}</span><br>
-            <span>Rating: {{ review.rating }}/100</span><br>
-            <span>Date: {{ review.date_time }}</span><br>
-            {% comment %} The review migth be empty {% endcomment %}
-            {% if review.review %}<p>{{ review.review }}</p>{% endif %}
-            <hr>
-          </li>
-          {% endfor %}
-        </ol>
-        {% else %}
-        <p>No reviews for &quot;{{ movie.title|title }}&quot; as of now...</p>
-        {% endif %}
-
       </section>
     </div>
   </article>
