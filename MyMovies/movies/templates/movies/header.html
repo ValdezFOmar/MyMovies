@@ -15,7 +15,7 @@
       </li>
       {% if user.is_authenticated %}
       <li>
-        <a href="" class="nav-link">{{ user.username }}</a>
+        <a href="{% url 'user-page' user.id %}" class="nav-link">{{ user.username }}</a>
       </li>
       {% endif %}
     </ul>

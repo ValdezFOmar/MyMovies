@@ -5,6 +5,7 @@ from django.db import models
 
 class User(AbstractUser):
     id: int
+    moviereview_set: models.Manager  # Only for type hinting
 
     def __str__(self) -> str:
         return f'ID<{self.id}> {self.username}'

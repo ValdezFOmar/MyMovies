@@ -1,0 +1,27 @@
+{% extends "movies/base.html" %}
+
+{% block content %}
+<main class="page-body-section">
+  <h1 class="text-4xl text-center mb-10">{{ page_user.username }}</h1>
+  <section>
+    <h2 class="text-2xl mb-5 font-bold">
+      {% if page_user.id == user.id %}
+      Your reviews
+      {% else %}
+      {{ page_user.username }}&apos;s reviews
+      {% endif %}
+    </h2>
+    {% if reviews %}
+    <ol>
+      {% for review in reviews %}
+      <li class="pl-6 py-2 border-t border-t-gray-200">
+        {% include "movies/review.html" with review=review show_movie_title=True %}
+      </li>
+      {% endfor %}
+    </ol>
+    {% else %}
+    <p>You haven&apos;t made any review yet...</p>
+    {% endif %}
+  </section>
+</main>
+{% endblock content %}
