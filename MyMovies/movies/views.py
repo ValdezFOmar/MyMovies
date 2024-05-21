@@ -1,3 +1,7 @@
+from __future__ import annotations
+
+from typing import TYPE_CHECKING
+
 from django.contrib import messages
 from django.contrib.auth import authenticate, login, logout
 from django.contrib.auth.decorators import login_required
@@ -15,12 +19,40 @@ from movies.models import Movie, User
 
 from .forms import MovieReviewForm
 
+if TYPE_CHECKING:
+    from collections.abc import Iterator
+    from typing import Protocol, TypeVar
+
+    from .models import MovieReview
+
+    T = TypeVar('T', covariant=True)
+
+    class IterLen(Protocol[T]):
+        def __iter__(self) -> Iterator[T]: ...
+        def __len__(self) -> int: ...
+
+
 LOGIN_PAGE_URL = 'user-login'
+
+
+def calc_movie_score(reviews: IterLen[MovieReview]) -> float:
+    length = len(reviews)
+    if length == 0:
+        return 0
+    return sum(r.rating for r in reviews) / length
 
 
 def index(request: HttpRequest):
     movies = Movie.objects.all()
-    context = {'movie_list': movies}
+    scores = []
+    has_reviews = []
+
+    for movie in movies:
+        reviews = movie.moviereview_set.all()
+        scores.append(calc_movie_score(reviews))
+        has_reviews.append(bool(reviews))
+
+    context = {'movies': movies, 'movies_with_score': zip(movies, scores, has_reviews)}
     return render(request, 'movies/index.html', context)
 
 
@@ -63,7 +95,8 @@ def movie_detail(request: HttpRequest, movie_id: int):
     except ObjectDoesNotExist:
         raise Http404(f'Movie with id {movie_id} does not exists')
     reviews = movie.moviereview_set.order_by('-date_time')
-    context = {'movie': movie, 'reviews': reviews}
+    score = calc_movie_score(reviews)
+    context = {'movie': movie, 'reviews': reviews, 'score': score}
     return render(request, 'movies/movie_detail.html', context)
 
 

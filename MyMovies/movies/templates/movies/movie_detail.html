@@ -5,7 +5,25 @@
 <main>
   <article>
     <div class="page-body-section mb-4">
-      <header class="mb-6">
+      <header class="mb-6 flex gap-4 flex-col-reverse items-center sm:flex-row sm:items-start">
+        <div class="w-fit px-2 py-1 font-bold text-xl text-zinc-50
+          rounded-md drop-shadow-md shadow-gray-300
+          {% if not reviews  %}
+            bg-gray-500
+          {% elif score >= 70 %}
+            bg-green-500
+          {% elif score >= 40 %}
+            bg-yellow-500
+          {% else %}
+            bg-red-500
+          {% endif %}
+          ">
+          {% if reviews %}
+            {{ score|floatformat }}<span class="text-base">/100</span>
+          {% else %}
+            N/A
+          {% endif %}
+        </div>
         <h2 class="text-2xl md:text-3xl font-semibold">
           {{ movie.title }}
           &lpar;<time datetime="{{ movie.release_date|date:'Y-m-d' }}">{{ movie.release_date|date:"Y" }}</time>&rpar;

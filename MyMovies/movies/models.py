@@ -1,3 +1,5 @@
+from __future__ import annotations
+
 from django.contrib.auth.models import AbstractUser
 from django.core.validators import MaxValueValidator, MinValueValidator
 from django.db import models
@@ -5,7 +7,7 @@ from django.db import models
 
 class User(AbstractUser):
     id: int
-    moviereview_set: models.Manager  # Only for type hinting
+    moviereview_set: models.Manager[MovieReview]  # Only for type hinting
 
     def __str__(self) -> str:
         return f'ID<{self.id}> {self.username}'
@@ -33,7 +35,7 @@ class Person(models.Model):
 
 
 class Movie(models.Model):
-    moviereview_set: models.Manager  # Only for type hinting
+    moviereview_set: models.Manager[MovieReview]  # Only for type hinting
 
     title = models.CharField(max_length=200)
     overview = models.TextField()
