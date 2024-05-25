@@ -43,7 +43,7 @@ def calc_movie_score(reviews: IterLen[MovieReview]) -> float:
 
 
 def index(request: HttpRequest):
-    movies = Movie.objects.all()
+    movies = Movie.objects.order_by('-release_date')
     scores = []
     has_reviews = []
 
