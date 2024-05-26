@@ -13,9 +13,9 @@ from django.http import (
     HttpResponseBadRequest,
     HttpResponseNotAllowed,
 )
-from django.shortcuts import redirect, render
+from django.shortcuts import get_object_or_404, redirect, render
 from django.utils import timezone
-from movies.models import Movie, User
+from movies.models import Movie, Person, User
 
 from .forms import MovieReviewForm
 
@@ -39,6 +39,9 @@ if TYPE_CHECKING:
         def __len__(self) -> int: ...
 
 
+## Helper functions ##
+
+
 def calc_movie_score(reviews: IterLen[MovieReview]) -> float:
     length = len(reviews)
     if length == 0:
@@ -52,7 +55,7 @@ def get_user_recommendations(user: User) -> QuerySet[Movie]:
     return unreviewed_movies
 
 
-def score_with_has_review(movies: QuerySet[Movie]) -> ScoreWithHasReview:
+def score_with_has_reviews(movies: QuerySet[Movie]) -> ScoreWithHasReview:
     scores = []
     has_reviews = []
     for movie in movies:
@@ -67,9 +70,12 @@ def recommendation_context(user: AnyUser) -> RecommendationContext:
         return zip(), False
     assert isinstance(user, User)
     recommendations = get_user_recommendations(user)
-    recomm_with_score = zip(recommendations, *score_with_has_review(recommendations))
+    recomm_with_score = zip(recommendations, *score_with_has_reviews(recommendations))
     has_recommendations = bool(recommendations)
     return recomm_with_score, has_recommendations
+
+
+## Views ##
 
 
 def index(request: HttpRequest):
@@ -78,7 +84,7 @@ def index(request: HttpRequest):
 
     context = {
         'movies': movies,
-        'movies_with_score': zip(movies, *score_with_has_review(movies)),
+        'movies_with_score': zip(movies, *score_with_has_reviews(movies)),
         'recommendations': recommendations,
         'has_recommendations': has_recommendations,
     }
@@ -130,17 +136,40 @@ def movie_detail(request: HttpRequest, movie_id: int):
         movie = Movie.objects.get(pk=movie_id)
     except ObjectDoesNotExist:
         raise Http404(f'Movie with id {movie_id} does not exists')
+
     reviews = movie.moviereview_set.order_by('-date_time')
     score = calc_movie_score(reviews)
+    actors = Person.objects.filter(
+        moviecredit__movie=movie, moviecredit__job__name='Acting'
+    ).order_by('name')
+
     recommendations, has_recommendations = recommendation_context(request.user)
+
     context = {
         'movie': movie,
         'reviews': reviews,
         'score': score,
+        'actors': actors,
         'recommendations': recommendations,
         'has_recommendations': has_recommendations,
     }
     return render(request, 'movies/movie_detail.html', context)
+
+
+def actor_detail(request: HttpRequest, actor_id: int) -> HttpResponse:
+    actor = get_object_or_404(Person, id=actor_id)
+    movies = Movie.objects.filter(
+        moviecredit__person=actor, moviecredit__job__name='Acting'
+    ).order_by('-release_date')
+
+    if not movies:
+        raise Http404(f'Not an actor {actor!r}')
+
+    context = {
+        'actor': actor,
+        'movies': zip(movies, *score_with_has_reviews(movies)),
+    }
+    return render(request, 'movies/actor_detail.html', context)
 
 
 def review_form(request: HttpRequest, movie_id: int) -> HttpResponse:

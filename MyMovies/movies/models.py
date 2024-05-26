@@ -21,6 +21,8 @@ class Genre(models.Model):
 
 
 class Job(models.Model):
+    moviecredit: models.Manager[MovieCredit]
+
     name = models.CharField(max_length=200)
 
     def __str__(self) -> str:
@@ -28,6 +30,8 @@ class Job(models.Model):
 
 
 class Person(models.Model):
+    moviecredit: models.Manager[MovieCredit]
+
     name = models.CharField(max_length=128)
 
     def __str__(self) -> str:
@@ -36,6 +40,7 @@ class Person(models.Model):
 
 class Movie(models.Model):
     moviereview_set: models.Manager[MovieReview]  # Only for type hinting
+    moviecredit_set: models.Manager[MovieCredit]
 
     title = models.CharField(max_length=200)
     overview = models.TextField()
