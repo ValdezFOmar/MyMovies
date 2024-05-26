@@ -1,0 +1,31 @@
+<a href="{% url 'movie-detail' movie.id %}" class="block">
+  <figure class="group h-full drop-shadow-md shadow-gray-300 bg-zinc-50 rounded-md">
+    <div class="overflow-hidden rounded-t-md relative">
+      <img src="https://image.tmdb.org/t/p/w600_and_h900_bestv2{{ movie.poster_path }}"
+        alt="Poster for {{ movie.title|title }}" class="rounded-t-md object-cover ease-out duration-300
+          group-hover:transition-transform group-hover:scale-110">
+      <span class="absolute bottom-0 left-0 px-2 py-1 text-zinc-50 font-semibold text-sm
+          rounded-tr-md border-t-2 border-r-2 border-zink-50
+          {% if not has_reviews  %}
+            bg-gray-500
+          {% elif score >= 70 %}
+            bg-green-500
+          {% elif score >= 40 %}
+            bg-yellow-500
+          {% else %}
+            bg-red-500
+          {% endif %}"
+      >
+        {% if not has_reviews %}
+          N/A
+        {% else %}
+          {{ score|floatformat }}
+        {% endif %}
+      </span>
+    </div>
+    <figcaption class="p-2 text-center text-base text-gray-600 font-bold ease-out duration-300
+        group-hover:text-gray-950 group-hover:transition-colors">
+      {{ movie.title }}
+    </figcaption>
+  </figure>
+</a>

@@ -1,7 +1,7 @@
 {% extends "movies/base.html" %}
 
 {% block content %}
-<main class="page-body-section">
+<main class="page-body-section mb-4">
   <h1 class="text-4xl text-center mb-10">{{ page_user.username }}</h1>
   <section>
     <h2 class="text-2xl mb-5 font-bold">
@@ -24,4 +24,13 @@
     {% endif %}
   </section>
 </main>
+
+{% if user.is_authenticated %}
+<aside class="page-body-section mb-4">
+  <section>
+    {% include "movies/recommendations.html" %}
+  </section>
+</aside>
+{% endif %}
+
 {% endblock content %}
