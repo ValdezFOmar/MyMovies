@@ -1,5 +1,6 @@
 {% extends "movies/base.html" %}
 {% load humanize %}
+{% load movie_filters %}
 
 {% block content %}
 <main>
@@ -29,27 +30,29 @@
       </h2>
     </header>
 
-    <div class="flex flex-col sm:flex-row gap-4">
+    <section class="flex flex-col sm:flex-row gap-4">
       <div>
         <img class="min-h-full max-w-52 mx-auto sm:mx-0 rounded-sm object-cover shadow shadow-gray-400"
           src="https://image.tmdb.org/t/p/w600_and_h900_bestv2{{ movie.poster_path }}"
           alt="Poster for {{ movie.title|title }}" />
       </div>
       <div>
-        <h3 class="text-2xl mb-4">Overview</h3>
+        <h3 class="text-2xl mb-2">Overview</h3>
+        <p class="mb-4 text-sm text-gray-500">
+          Duration: <time datetime="{{ movie.running_time }}m">{{ movie.running_time|movie_duration }}</time>
+        </p>
+
         <p class="mb-2 text-justify">{{ movie.overview }}</p>
 
-        <div>
-          <details open class="my-4">
-            <summary class="text-xl mb-2">Production Details</summary>
-            <ul class="list-outside pl-8">
-              <li class="list-item list-disc">Budget: ${{ movie.budget|intword }}</li>
-              <li class="list-item list-disc">Revenue: ${{ movie.revenue|intword }}</li>
-            </ul>
-          </details>
-        </div>
+        <details open class="my-4">
+          <summary class="text-xl mb-2">Production Details</summary>
+          <ul class="list-outside pl-8">
+            <li class="list-item list-disc">Budget: ${{ movie.budget|intword }}</li>
+            <li class="list-item list-disc">Revenue: ${{ movie.revenue|intword }}</li>
+          </ul>
+        </details>
       </div>
-    </div>
+    </section>
 
     <aside class="mt-4">
       <h3 class="mb-2 text-lg font-semibold text-center">Actors</h3>
