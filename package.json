@@ -9,7 +9,9 @@
     "format": "npx prettier . --write",
     "gencss": "npx tailwindcss -i input.css -o MyMovies/movies/static/movies/css/output.css",
     "watchcss": "npm run gencss -- --watch",
-    "server": "./MyMovies/manage.py runserver"
+    "server": "./MyMovies/manage.py runserver",
+    "createusers": "./MyMovies/manage.py shell <<< 'import create_data as c; c.create_users()'",
+    "createdata": "./MyMovies/manage.py shell <<< 'import create_data as c; c.create_data()'"
   },
   "prettier": {
     "singleQuote": true

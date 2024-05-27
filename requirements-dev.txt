@@ -1,1 +1,2 @@
 django-stubs==4.2.7
+Faker==25.2.0
