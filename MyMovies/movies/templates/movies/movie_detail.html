@@ -53,10 +53,13 @@
 
     <aside class="mt-4">
       <h3 class="mb-2 text-lg font-semibold text-center">Actors</h3>
-      <ul class="flex flex-wrap gap-2 justify-around">
+      <ul class="flex flex-wrap justify-center gap-4 md:gap-2 px-0 sm:px-4 md:px-8">
         {% for actor in actors %}
         <li class="min-w-fit px-2">
-          <a href="{% url 'actor-detail' actor.id %}" class="text-link">{{ actor.name }}</a>
+          <a href="{% url 'actor-detail' actor.id %}"
+            class="text-indigo-600 ease-out duration-200 hover:text-black hover:transition-colors">
+            {{ actor.name }}
+          </a>
         </li>
         {% endfor %}
       </ul>
